@@ -22,58 +22,58 @@ START_POS = (35, 30)
 
 def main():
 
-	# Pygame initializations
-	pygame.init()
+    # Pygame initializations
+    pygame.init()
 
-	screen = pygame.display.set_mode((WIDTH, HEIGHT))
-	screen.fill(BGCOLOR)
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen.fill(BGCOLOR)
 
-	clock = pygame.time.Clock()
-	running = True
+    clock = pygame.time.Clock()
+    running = True
 
-	# Pymunk initializations
-	space = pymunk.Space()
-	space.gravity = 0, -1000
-	static = [
-		pymunk.Segment(space.static_body, (0, 5), (0, HEIGHT), WALLWIDTH),
-		pymunk.Segment(space.static_body, (0, 5), (WIDTH, 5), WALLWIDTH),
-		pymunk.Segment(space.static_body, (0, HEIGHT), (WIDTH, HEIGHT), WALLWIDTH),
-		pymunk.Segment(space.static_body, (WIDTH-WALLWIDTH, 5), (WIDTH-WALLWIDTH, HEIGHT), WALLWIDTH),
-	]
+    # Pymunk initializations
+    space = pymunk.Space()
+    space.gravity = 0, -1000
+    static = [
+        pymunk.Segment(space.static_body, (0, 5), (0, HEIGHT), WALLWIDTH),
+        pymunk.Segment(space.static_body, (0, 5), (WIDTH, 5), WALLWIDTH),
+        pymunk.Segment(space.static_body, (0, HEIGHT), (WIDTH, HEIGHT), WALLWIDTH),
+        pymunk.Segment(space.static_body, (WIDTH-WALLWIDTH, 5), (WIDTH-WALLWIDTH, HEIGHT), WALLWIDTH),
+    ]
 
-	for s in static:
-		s.friction = FRICTION
-		s.group = 1
-		s.color = BLACK
-	space.add(static)
+    for s in static:
+        s.friction = FRICTION
+        s.group = 1
+        s.color = BLACK
+    space.add(static)
 
 
-	# Player init
-	player = pymunk.Body(5, pymunk.inf)
-	player.position = START_POS
+    # Player init
+    player = pymunk.Body(5, pymunk.inf)
+    player.position = START_POS
 
-	player_bod = pymunk.Circle(player, 20, (0, 5))
-	space.add(player, player_bod)
+    player_bod = pymunk.Circle(player, 20, (0, 5))
+    space.add(player, player_bod)
 
-	while running:
-		for event in pygame.event.get():
-			if exiting(event):
-				pygame.quit()
-				sys.exit()
+    while running:
+        for event in pygame.event.get():
+            if exiting(event):
+                pygame.quit()
+                sys.exit()
 
-		draw(screen, space)
-		pygame.display.update()
-		clock.tick(FPS)
+        draw(screen, space)
+        pygame.display.update()
+        clock.tick(FPS)
 
 
 # Check to see if a quit event has occured
 def exiting(event):
-	if event.type == pygame.QUIT or \
-		event.type == pygame.KEYDOWN and (event.key in [pygame.K_ESCAPE, pygame.K_q]):
-			return True
-	return False
+    if event.type == pygame.QUIT or \
+        event.type == pygame.KEYDOWN and (event.key in [pygame.K_ESCAPE, pygame.K_q]):
+            return True
+    return False
 
 
 
 if __name__ == '__main__':
-	main()
+    main()
