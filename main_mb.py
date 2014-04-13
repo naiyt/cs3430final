@@ -9,6 +9,7 @@ from pymunk.pygame_util import draw, from_pygame, to_pygame
 FPS = 60
 WIDTH = 800
 HEIGHT = 800
+DT = 1./FPS
 
 WHITE    = (255, 255, 255)
 RED      = (255,   0,   0)
@@ -18,7 +19,14 @@ BGCOLOR = WHITE
 FRICTION = 1
 WALLWIDTH = 10
 
-START_POS = (35, 30)
+START_POS = (35, 500)
+
+LEFT = -1
+RIGHT = 1
+
+PLAYER_VELOCITY = 100. *2.
+PLAYER_GROUND_ACCEL_TIME = 0.05
+PLAYER_GROUND_ACCEL = (PLAYER_VELOCITY/PLAYER_GROUND_ACCEL_TIME)
 
 def main():
 
@@ -47,13 +55,18 @@ def main():
         s.color = BLACK
     space.add(static)
 
-
     # Player init
-    player = pymunk.Body(5, pymunk.inf)
-    player.position = START_POS
 
-    player_bod = pymunk.Circle(player, 20, (0, 5))
-    space.add(player, player_bod)
+    size = 12
+    points = [(-size, -size), (-size, size), (size,size), (size, -size)]
+    mass = 5.0
+    body = pymunk.Body(mass, pymunk.inf)
+    body.position = START_POS
+    shape = pymunk.Poly(body, points, (0,0))
+    shape.friction = 1
+    space.add(body, shape)
+
+    direction = 0
 
     while running:
         for event in pygame.event.get():
@@ -61,9 +74,24 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+        target_vx = 0
+
+        keys = pygame.key.get_pressed()
+        if(keys[pygame.K_LEFT]):
+            direction = LEFT
+            target_vx -= PLAYER_VELOCITY
+        if(keys[pygame.K_RIGHT]):
+            direction = RIGHT
+            target_vx += PLAYER_VELOCITY
+
+        body.velocity.x = target_vx
+
+        screen.fill(BGCOLOR)
+        space.step(DT)
         draw(screen, space)
         pygame.display.update()
         clock.tick(FPS)
+
 
 
 # Check to see if a quit event has occured
