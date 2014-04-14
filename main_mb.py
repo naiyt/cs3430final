@@ -1,6 +1,6 @@
 import sys
 import pygame
-
+import math
 import pymunk
 from pymunk.vec2d import Vec2d
 from pymunk.pygame_util import draw, from_pygame, to_pygame
@@ -27,6 +27,8 @@ RIGHT = 1
 PLAYER_VELOCITY = 100. *2.
 PLAYER_GROUND_ACCEL_TIME = 0.05
 PLAYER_GROUND_ACCEL = (PLAYER_VELOCITY/PLAYER_GROUND_ACCEL_TIME)
+
+JUMP_HEIGHT = 200.*3
 
 def main():
 
@@ -57,10 +59,11 @@ def main():
 
     # Player init
 
-    size = 12
+    size = 30
     points = [(-size, -size), (-size, size), (size,size), (size, -size)]
     mass = 5.0
-    body = pymunk.Body(mass, pymunk.inf)
+    moment = pymunk.moment_for_poly(mass, points, (0,0))
+    body = pymunk.Body(mass, moment)
     body.position = START_POS
     shape = pymunk.Poly(body, points, (0,0))
     shape.friction = 1
@@ -68,11 +71,17 @@ def main():
 
     direction = 0
 
+    jump_v = math.sqrt(2.0 * JUMP_HEIGHT * abs(space.gravity.y))
+
     while running:
         for event in pygame.event.get():
             if exiting(event):
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+                body.velocity.y = jump_v
+            elif event.type == pygame.KEYUP and event.key == pygame.K_UP:
+                body.velocity.y = 0.0
 
         target_vx = 0
 
@@ -83,6 +92,9 @@ def main():
         if(keys[pygame.K_RIGHT]):
             direction = RIGHT
             target_vx += PLAYER_VELOCITY
+        if(keys[pygame.K_r]):
+            main()
+            sys.exit()
 
         body.velocity.x = target_vx
 
