@@ -1,0 +1,64 @@
+{
+	"hero": {
+			"name": "Vinn",
+			"size": 50,
+			"mass": 30,
+			"color": "red",
+			"start_pos": {
+				"x": 25,
+				"y": 500
+			}
+	},
+	"interactive_objs": {
+		"box1": {
+			"name": "Steve",
+			"size": 100,
+			"mass": 50,
+			"color": "red",
+			"start_pos": {
+				"x": 300,
+				"y": 300
+			}
+		},
+		"box2": {
+			"name": "Steve",
+			"size": 10,
+			"mass": 10,
+			"color": "red",
+			"start_pos": {
+				"x": 100,
+				"y": 100
+			}
+		},
+		"box3": {
+			"name": "Steve",
+			"size": 200,
+			"mass": 1000,
+			"color": "red",
+			"start_pos": {
+				"x": 400,
+				"y": 400
+			}
+		},
+		"box4": {
+			"name": "Steve",
+			"size": 2,
+			"mass": 600,
+			"color": "red",
+			"start_pos": {
+				"x": 20,
+				"y": 20
+			}
+		},
+		"box5": {
+			"name": "Steve",
+			"size": 100,
+			"mass": 50,
+			"color": "red",
+			"start_pos": {
+				"x": 450,
+				"y": 200
+			}
+		}
+	}
+}
