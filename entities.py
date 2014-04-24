@@ -26,22 +26,6 @@ class Entity:
         self.shape = pymunk.Poly(self.body, self.points, (0,0))
         self.shape.friction = self.friction
         self.shape.color = self.color
+        self.shape.metal = self.metal
         
 
-
-
-# class Hero(Entity):
-#     def __init__(self):
-#         pass
-
-# class StationaryObject(Entity):
-#     def __init__(self):
-#         pass
-
-# class Character(Entity):
-#     def __init__(self):
-#         pass
-
-# class MoveableObject(Entity):
-#     def __init__(self):
-#         pass

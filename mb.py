@@ -3,7 +3,6 @@ import pygame
 import math
 import pymunk
 from pymunk.vec2d import Vec2d
-from pymunk.pygame_util import draw, from_pygame, to_pygame
 from entities import Entity
 import json
 
@@ -15,6 +14,9 @@ DT = 1./FPS
 WHITE    = (255, 255, 255)
 RED      = (255,   0,   0)
 BLACK    = (  0,   0,   0)
+
+DEFAULT_COLOR = BLACK
+HIGHLIGHT_COLOR = RED
 
 BGCOLOR = WHITE
 FRICTION = 1
@@ -53,7 +55,10 @@ def main():
     for thing in entities:
         add_entity_to_space(space, thing)
 
+    target_vy = hero.body.velocity.y
     while running:
+        target_vx = 0.0
+
         for event in pygame.event.get():
             if exiting(event):
                 pygame.quit()
@@ -63,7 +68,6 @@ def main():
             elif event.type == pygame.KEYUP and event.key == pygame.K_UP:
                 hero.body.velocity.y = 0.0
 
-        target_vx = 0
 
         keys = pygame.key.get_pressed()
         if(keys[pygame.K_LEFT]):
@@ -76,14 +80,52 @@ def main():
             main()
             sys.exit()
 
+
+        highlighted_shape = check_for_mouse_over(screen, space, entities)
+        if highlighted_shape:
+            if(keys[pygame.K_w]):
+                target_vx, target_vy = push(highlighted_shape, hero)
+                hero.body.velocity.y = target_vy
+            elif keys[pygame.K_s]:
+                target_vx, target_vy = pull(highlighted_shape, hero)
+                hero.body.velocity.y = target_vy
+
+
         hero.body.velocity.x = target_vx
+
+        print hero.body.velocity.y
 
         screen.fill(BGCOLOR)
         space.step(DT)
-        draw(screen, space)
+        pymunk.pygame_util.draw(screen, space)
         pygame.display.update()
         clock.tick(FPS)
 
+
+def push(shape, hero):
+    print 'pushing {}'.format(shape.name)
+    return 100, 100
+
+def pull(shape, hero):
+    print 'pulling {}'.format(shape.name)
+    return 100, 100
+
+def check_for_mouse_over(screen, space, shapes):
+    mouse_pos = pymunk.pygame_util.get_mouse_pos(screen)
+    curr_shape = space.point_query_first(mouse_pos)
+    if curr_shape:
+        for shape in shapes:
+            if shape.shape == curr_shape:
+                if hasattr(curr_shape, 'metal'):
+                    shape.shape.color = HIGHLIGHT_COLOR
+                    return shape
+            else:
+                shape.shape.color = DEFAULT_COLOR
+    else:
+        for shape in shapes:
+            shape.shape.color = DEFAULT_COLOR
+    return None
+    
 
 def init_entities():
     with open('entities.json') as infile:
@@ -93,7 +135,7 @@ def init_entities():
     hero = Entity(
         hero_info['mass'],
         hero_info['size'],
-        RED,
+        DEFAULT_COLOR,
         (hero_info['start_pos']['x'], hero_info['start_pos']['y']),
         hero_info['name']
     )
@@ -103,7 +145,7 @@ def init_entities():
         new_ent =  Entity(
             thing['mass'],
             thing['size'],
-            RED,
+            DEFAULT_COLOR,
             (thing['start_pos']['x'], thing['start_pos']['y']),
             thing['name']
         )

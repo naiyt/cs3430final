@@ -2,7 +2,7 @@
 	"hero": {
 			"name": "Vinn",
 			"size": 50,
-			"mass": 30,
+			"mass": 10,
 			"color": "red",
 			"start_pos": {
 				"x": 25,
@@ -21,7 +21,7 @@
 			}
 		},
 		"box2": {
-			"name": "Steve",
+			"name": "Joe",
 			"size": 10,
 			"mass": 10,
 			"color": "red",
@@ -31,7 +31,7 @@
 			}
 		},
 		"box3": {
-			"name": "Steve",
+			"name": "Fred",
 			"size": 200,
 			"mass": 1000,
 			"color": "red",
@@ -41,7 +41,7 @@
 			}
 		},
 		"box4": {
-			"name": "Steve",
+			"name": "Bob",
 			"size": 2,
 			"mass": 600,
 			"color": "red",
@@ -51,7 +51,7 @@
 			}
 		},
 		"box5": {
-			"name": "Steve",
+			"name": "Susan",
 			"size": 100,
 			"mass": 50,
 			"color": "red",
