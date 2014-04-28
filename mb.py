@@ -6,9 +6,12 @@ from pymunk.vec2d import Vec2d
 from entities import Entity
 import json
 
+from math import atan2, degrees, pi, sin, cos
+
+
 FPS = 60
-WIDTH = 800
-HEIGHT = 800
+WIDTH = 700
+HEIGHT = 700
 DT = 1./FPS
 
 WHITE    = (255, 255, 255)
@@ -26,9 +29,11 @@ LEFT = -1
 STATIONARY = 0
 RIGHT = 1
 
-PLAYER_VELOCITY = 100. *2.
+PLAYER_SPEED = 100. *2.
 PLAYER_GROUND_ACCEL_TIME = 0.05
-PLAYER_GROUND_ACCEL = (PLAYER_VELOCITY/PLAYER_GROUND_ACCEL_TIME)
+PLAYER_GROUND_ACCEL = (PLAYER_SPEED/PLAYER_GROUND_ACCEL_TIME)
+
+PULLING_STR = 3
 
 JUMP_HEIGHT = 30.*3
 
@@ -72,10 +77,10 @@ def main():
         keys = pygame.key.get_pressed()
         if(keys[pygame.K_LEFT]):
             direction = LEFT
-            target_vx -= PLAYER_VELOCITY
+            target_vx -= PLAYER_SPEED
         if(keys[pygame.K_RIGHT]):
             direction = RIGHT
-            target_vx += PLAYER_VELOCITY
+            target_vx += PLAYER_SPEED
         if(keys[pygame.K_r]):
             main()
             sys.exit()
@@ -93,7 +98,6 @@ def main():
 
         hero.body.velocity.x = target_vx
 
-        print hero.body.velocity.y
 
         screen.fill(BGCOLOR)
         space.step(DT)
@@ -102,13 +106,32 @@ def main():
         clock.tick(FPS)
 
 
-def push(shape, hero):
-    print 'pushing {}'.format(shape.name)
-    return 100, 100
-
 def pull(shape, hero):
+    # Position of an object: .position
+    hero_pos = hero.body.position
+    obj_pos = shape.shape.body.position
+    angle = get_angle(obj_pos, hero_pos)
+    # print 'Degs: {}'.format(angle)
+
+    scale_x = cos(angle)
+    scale_y = sin(angle)
+
+    print 'x vel: {} y vel: {}'.format(scale_x, scale_y)
+
+    # shape.shape.body.velocity.x = 100
+    return scale_x * PLAYER_SPEED*PULLING_STR, scale_y * PLAYER_SPEED*PULLING_STR
+
+def push(shape, hero):
     print 'pulling {}'.format(shape.name)
     return 100, 100
+
+def get_angle(obj1, obj2):
+    dx = obj1.x - obj2.x
+    dy = obj1.y - obj2.y
+    rads = atan2(dy, dx)
+    rads %= 2 * pi
+    degs = degrees(rads)
+    return degs
 
 def check_for_mouse_over(screen, space, shapes):
     mouse_pos = pymunk.pygame_util.get_mouse_pos(screen)
