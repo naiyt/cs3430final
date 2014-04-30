@@ -2,7 +2,7 @@
 	"hero": {
 			"name": "Vinn",
 			"size": 50,
-			"mass": 10,
+			"mass": 50,
 			"color": "red",
 			"start_pos": {
 				"x": 25,
@@ -11,54 +11,65 @@
 	},
 	"interactive_objs": {
 		"box1": {
-			"name": "Steve",
-			"size": 100,
-			"mass": 50,
+			"name": "box1",
+			"size": 50,
+			"mass": 45,
 			"color": "red",
 			"start_pos": {
-				"x": 300,
-				"y": 300
+				"x": 500,
+				"y": 500
 			}
 		},
 		"box2": {
-			"name": "Joe",
-			"size": 10,
-			"mass": 10,
+			"name": "box2",
+			"size": 70,
+			"mass": 60,
 			"color": "red",
 			"start_pos": {
-				"x": 100,
-				"y": 100
+				"x": 500,
+				"y": 300
 			}
 		},
 		"box3": {
-			"name": "Fred",
-			"size": 200,
-			"mass": 1000,
+			"name": "box3",
+			"size": 50,
+			"mass": 45,
 			"color": "red",
 			"start_pos": {
-				"x": 400,
-				"y": 400
-			}
-		},
-		"box4": {
-			"name": "Bob",
-			"size": 2,
-			"mass": 600,
-			"color": "red",
-			"start_pos": {
-				"x": 20,
-				"y": 20
+				"x": 500,
+				"y": 500
 			}
 		},
 		"box5": {
-			"name": "Susan",
+			"name": "box5",
 			"size": 100,
-			"mass": 50,
+			"mass": 200,
 			"color": "red",
 			"start_pos": {
-				"x": 450,
-				"y": 200
+				"x": 500,
+				"y": 120
+			}
+		},
+		"box6": {
+			"name": "box6",
+			"size": 30,
+			"mass": 30,
+			"color": "red",
+			"start_pos": {
+				"x": 500,
+				"y": 600
+			}
+		},
+		"box7": {
+			"name": "box7",
+			"size": 100,
+			"mass": 55,
+			"color": "red",
+			"start_pos": {
+				"x": 500,
+				"y": 720
 			}
 		}
+
 	}
 }
